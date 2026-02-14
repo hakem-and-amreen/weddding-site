@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakem & Amreen - Wedding</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <!-- ==================== LANDING PAGE ==================== -->
+    <div class="landing-page" id="landingPage">
+        <div class="curtain-container" id="curtainContainer">
+            <!-- Video Background -->
+            <video 
+                id="curtainVideo" 
+                class="curtain-video"
+                playsinline 
+                muted
+                preload="auto"
+                webkit-playsinline
+                x5-playsinline
+                x5-video-player-type="h5"
+                x5-video-player-fullscreen="true">
+                <source src="Hakem_Amreen_Loading.mp4" type="video/mp4">
+                <!-- Your browser does not support the video tag. -->
+            </video>
+            
+            <!-- Overlay Content -->
+            <div class="landing-content" id="landingContent">
+                <p class="invitation-text">You have been invited to the wedding of</p>
+                <h1>Hakem</h1>
+                <h1>&</h1>
+                <h1>Amreen</h1>
+                <button class="rsvp-button" onclick="playFullVideo()">RSVP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN SITE ==================== -->
+    <div class="main-site" id="mainSite">
+        <!-- NAVIGATION -->
+        <nav class="top-bar">
+            <div class="nav-container">
+                <div class="site-title">Hakem & Amreen</div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                    <li><a href="#rsvp">RSVP</a></li>
+                    <!-- <li><a href="#registry">Registry</a></li> -->
+                    <li><a href="#travel">Travel</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <section id="home" class="hero-section">
+            <div class="slideshow">
+                <div class="slide active" style="background-image: url('images/hands.jpg');"></div>
+                <div class="slide" style="background-image: url('images/jungle.jpg');"></div>
+                <div class="slide" style="background-image: url('images/flower.jpg');"></div>
+                <div class="slide" style="background-image: url('images/chicago.jpg');"></div>
+                <div class="slide" style="background-image: url('images/pink.jpg');"></div>
+            </div>
+
+            <!-- Names Overlay -->
+            <div class="hero-names">
+                <h2>Hakem Habahbeh</h2>
+                <p class="and">&</p>
+                <h3>Amreen Ali</h3>
+            </div>
+        </section>
+
+        <div class="content-wrapper">
+            <!-- SCHEDULE SECTION -->
+            <section id="schedule" class="section schedule-section">
+                <h2 class="section-title">Schedule</h2>
+                <div class="schedule-grid" id="scheduleGrid">
+                    <!-- Dynamic content will be inserted based on invite type -->
+                </div>
+            </section>
+
+            <div class="floral-divider">
+                <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+            </div>
+
+            <!-- RSVP SECTION -->
+            <section id="rsvp" class="section">
+                <h2 class="section-title">RSVP</h2>
+                <div class="rsvp-section">
+
+                    <!-- Tab Toggle -->
+                    <div class="rsvp-tab-toggle">
+                        <button class="rsvp-tab-btn active" onclick="switchRsvpTab('new')">New RSVP</button>
+                        <button class="rsvp-tab-btn" onclick="switchRsvpTab('edit')">Edit RSVP</button>
+                    </div>
+
+                    <!-- ===== NEW RSVP TAB ===== -->
+                    <div class="rsvp-tab-content active" id="newRsvpTab">
+                        <div class="error-message" id="errorMessage"></div>
+
+                        <form id="rsvpForm">
+                            <div id="dynamicFormContent"></div>
+                            <button type="submit" class="submit-btn">SUBMIT RSVP</button>
+                        </form>
+                    </div>
+
+                    <!-- ===== EDIT RSVP TAB ===== -->
+                    <div class="rsvp-tab-content" id="editRsvpTab">
+                        <div class="success-message" id="editSuccessMessage">
+                            ✨ Your RSVP has been updated successfully! ✨
+                        </div>
+                        <div class="error-message" id="editErrorMessage"></div>
+
+                        <div class="edit-lookup-section" id="editLookupSection">
+                            <p>Already submitted your RSVP and need to make changes?<br>Enter the email address you used to look up your response.</p>
+                            <div class="lookup-form">
+                                <input type="email" id="lookupEmail" placeholder="your@email.com" required>
+                                <button type="button" class="lookup-btn" id="lookupBtn" onclick="lookupRsvp()">Find RSVP</button>
+                            </div>
+                            <div class="no-rsvp-found" id="noRsvpFound">
+                                <p>We couldn't find an RSVP with that email address.</p>
+                                <p>Would you like to <span class="switch-to-new" onclick="switchRsvpTab('new')">submit a new RSVP</span> instead?</p>
+                            </div>
+                        </div>
+
+                        <div class="edit-rsvp-found" id="editRsvpFound">
+                            <div class="previous-rsvp-summary" id="previousRsvpSummary">
+                                <!-- Filled dynamically -->
+                            </div>
+                            <div class="edit-notice">
+                                Update any fields below and submit to save your changes. Fields are pre-filled with your previous responses.
+                            </div>
+                            <form id="editRsvpForm">
+                                <div id="editDynamicFormContent"></div>
+                                <button type="submit" class="submit-btn">UPDATE RSVP</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <div class="floral-divider">
+                <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+            </div>
+
+            <!-- REGISTRY SECTION -->
+            <!-- <section id="registry" class="section">
+                <h2 class="section-title">Registry</h2>
+                <div class="registry-grid">
+                    <div class="registry-card">
+                        <h3 style="color: #2c2c2c; margin-bottom: 15px;">Target</h3>
+                        <p style="color: #8b7355; font-size: 15px;">Find our registry at Target</p>
+                        <a href="https://www.target.com" target="_blank">View Registry</a>
+                    </div>
+                    <div class="registry-card">
+                        <h3 style="color: #2c2c2c; margin-bottom: 15px;">Bloomingdale's</h3>
+                        <p style="color: #8b7355; font-size: 15px;">Browse our selections at Bloomingdale's</p>
+                        <a href="https://www.bloomingdales.com" target="_blank">View Registry</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="floral-divider">
+                <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+            </div> -->
+
+            <!-- TRAVEL SECTION -->
+            <section id="travel" class="section">
+                <h2 class="section-title">Travel & Venues</h2>
+                
+                <!-- Mehndi Venue -->
+                <div style="margin-bottom: 60px;">
+                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Mehndi / Henna Night</h3>
+                    
+                    <div class="maps-container">
+                        <div class="map-item">
+                            <h4>📍 Mehndi/Henna Venue</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.987!3d40.748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzUzLjAiTiA3M8KwNTknMTMuMiJX!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+                            <p>Replace with Mehndi venue address</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floral-divider">
+                    <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+                </div>
+
+                <!-- Nikkah Venue -->
+                <div style="margin-bottom: 60px;">
+                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Nikkah / Shadi</h3>
+                    
+                    <div class="maps-container">
+                        <div class="map-item">
+                            <h4>📍 Nikkah Venue</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2959.963170852228!2d-87.73636642390363!3d42.10825957121749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fc4f6dda07223%3A0xd4f3e8c2892a134a!2sCommunity%20House%20Winnetka!5e0!3m2!1sen!2sus!4v1770655906639!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floral-divider">
+                    <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+                </div>
+
+                <!-- Walima Venue -->
+                <div style="margin-bottom: 60px;">
+                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Walima / Reception</h3>
+                    
+                    <div class="maps-container">
+                        <div class="map-item">
+                            <h4>📍 Walima/Reception Venue</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11861.196856519276!2d-88.04880177408121!3d41.9938536222794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fae12c2e8756f%3A0x919283b8a18a8772!2sBelvedere%20Events%20%26%20Catering!5e0!3m2!1sen!2sus!4v1770655964708!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floral-divider">
+                    <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
+                </div>
+
+                <!-- Hotels Section -->
+                <div style="margin-top: 60px;">
+                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Recommended Hotels</h3>
+                    
+                    <div class="maps-container">
+                        <div class="map-item">
+                            <h4>🏨 Hotels in the Area</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3022.3!2d-73.987!3d40.748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1shotels!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+                            <p>Search "hotels near [venue area]" to update this map</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Pop-up Overlay - OUTSIDE main-site div, before closing </body> tag -->
+    <div class="popup-overlay" id="thankYouPopup" style="display: none;">
+        <div class="popup-container">
+            <p class="popup-message">
+                ✨ Thank you for your RSVP! We can't wait to celebrate with you! ✨
+            </p>
+            <button class="popup-close-btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

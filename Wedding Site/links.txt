@@ -1,0 +1,22 @@
+# All 3 events
+http://localhost:5500/wedding-site-final.html?type=all&max=5&id=smith-family
+
+# Mehndi + Walima
+http://localhost:5500/wedding-site-final.html?type=mehndi-walima&max=4&id=jones-family
+
+# Nikkah + Walima (NEW!)
+http://localhost:5500/wedding-site-final.html?type=nikkah-walima&max=4&id=brown-family
+
+# Walima only
+http://localhost:5500/wedding-site-final.html?type=walima&max=3&id=doe-family
+
+
+Make sure to ask about how many guests people will be bringing to each event if they are 
+Going to multiple events. 
+
+Make another link where it is only Nikkah and Waleema.
+
+Make sure the numbers on the spread sheet also calculate the amount of invites. 
+
+
+
