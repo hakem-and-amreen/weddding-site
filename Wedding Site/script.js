@@ -1,11 +1,10 @@
 // Configuration
 const CONFIG = {
     GOOGLE_SHEETS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbx2iyILRmRXyiQX6ayxMcPX8tPPX5nyWG_AGj-Y5NYcSPABzB63pV-pEIZREFJdtMcC/exec',
-    MAX_GUESTS: {
-        'all-events-default': 5,
-        'mehndi-walima-default': 4,
-        'nikkah-walima-default': 4,
-        'walima-only-default': 3
+    DEFAULT_MAX_GUESTS: {
+        'mehndi': 2,
+        'nikkah': 3,
+        'walima': 5
     }
 };
 
@@ -146,18 +145,14 @@ window.addEventListener('scroll', () => {
 // ==================== URL PARAMETERS ====================
 const urlParams = new URLSearchParams(window.location.search);
 const inviteType = urlParams.get('type') || 'all';
-
-let defaultMaxKey = 'all-events-default';
-if (inviteType === 'mehndi-walima') {
-    defaultMaxKey = 'mehndi-walima-default';
-} else if (inviteType === 'nikkah-walima') {
-    defaultMaxKey = 'nikkah-walima-default';
-} else if (inviteType === 'walima') {
-    defaultMaxKey = 'walima-only-default';
-}
-
-const maxGuests = parseInt(urlParams.get('max')) || CONFIG.MAX_GUESTS[defaultMaxKey];
 const inviteId = urlParams.get('id') || 'default';
+
+// Get custom guest limits from URL, or use defaults
+const maxGuestsPerEvent = {
+    mehndi: parseInt(urlParams.get('mehndi')) || CONFIG.DEFAULT_MAX_GUESTS.mehndi,
+    nikkah: parseInt(urlParams.get('nikkah')) || CONFIG.DEFAULT_MAX_GUESTS.nikkah,
+    walima: parseInt(urlParams.get('walima')) || CONFIG.DEFAULT_MAX_GUESTS.walima
+};
 
 // ==================== RSVP TAB SWITCHING ====================
 function switchRsvpTab(tab) {
@@ -193,6 +188,39 @@ function generateSchedule() {
                 <p class="event-date">Sunday, June 22, 2026</p>
                 <p class="event-time">5:00 PM - 11:00 PM</p>
                 <p class="event-description">Join us for a grand celebration with dinner, dancing, and joy as we begin our journey together.</p>
+            </div>
+        `;
+    } else if (inviteType === 'mehndi') {
+        scheduleGrid.innerHTML = `
+            <div class="event-card">
+                <h3>Mehndi / Henna</h3>
+                <p class="event-date">Friday, June 20, 2026</p>
+                <p class="event-time">6:00 PM - 10:00 PM</p>
+                <p class="event-description">Join us for an evening of henna, music, and celebration as we kick off the wedding festivities.</p>
+            </div>
+        `;
+    } else if (inviteType === 'nikkah') {
+        scheduleGrid.innerHTML = `
+            <div class="event-card">
+                <h3>Nikkah / Shadi</h3>
+                <p class="event-date">Saturday, June 21, 2026</p>
+                <p class="event-time">4:00 PM - 8:00 PM</p>
+                <p class="event-description">The wedding ceremony where two families become one. Traditional attire encouraged.</p>
+            </div>
+        `;
+    } else if (inviteType === 'mehndi-nikkah') {
+        scheduleGrid.innerHTML = `
+            <div class="event-card">
+                <h3>Mehndi / Henna</h3>
+                <p class="event-date">Friday, June 20, 2026</p>
+                <p class="event-time">6:00 PM - 10:00 PM</p>
+                <p class="event-description">Join us for an evening of henna, music, and celebration as we kick off the wedding festivities.</p>
+            </div>
+            <div class="event-card">
+                <h3>Nikkah / Shadi</h3>
+                <p class="event-date">Saturday, June 21, 2026</p>
+                <p class="event-time">4:00 PM - 8:00 PM</p>
+                <p class="event-description">The wedding ceremony where two families become one. Traditional attire encouraged.</p>
             </div>
         `;
     } else if (inviteType === 'mehndi-walima') {
@@ -278,10 +306,10 @@ function generateForm() {
                 <div class="guest-counter">
                     <label>Number of Additional Guests</label>
                     <select name="additionalGuests" id="additionalGuests">
-                        ${generateGuestOptions(maxGuests)}
+                        ${generateGuestOptions(maxGuestsPerEvent.walima)}
                     </select>
                 </div>
-                <p class="guest-limit-info">Maximum guests allowed for your invitation: ${maxGuests}</p>
+                <p class="guest-limit-info">Maximum guests allowed: ${maxGuestsPerEvent.walima}</p>
             </div>
 
             <div class="form-group">
@@ -293,19 +321,23 @@ function generateForm() {
                 </select>
             </div>
         `;
+    } else if (inviteType === 'mehndi') {
+        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night', maxGuestsPerEvent.mehndi);
+    } else if (inviteType === 'nikkah') {
+        attendanceFields = buildEventBlock('shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah);
+    } else if (inviteType === 'mehndi-nikkah') {
+        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night', maxGuestsPerEvent.mehndi) + 
+                          buildEventBlock('shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah);
     } else if (inviteType === 'mehndi-walima') {
-        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night') + 
-                          buildEventBlock('walima', 'Walima / Reception') +
-                          `<p class="guest-limit-info" style="text-align: center;">Maximum guests allowed for your invitation: ${maxGuests} per event</p>`;
+        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night', maxGuestsPerEvent.mehndi) + 
+                          buildEventBlock('walima', 'Walima / Reception', maxGuestsPerEvent.walima);
     } else if (inviteType === 'nikkah-walima') {
-        attendanceFields = buildEventBlock('shadi', 'Nikkah / Shadi') +
-                          buildEventBlock('walima', 'Walima / Reception') +
-                          `<p class="guest-limit-info" style="text-align: center;">Maximum guests allowed for your invitation: ${maxGuests} per event</p>`;
+        attendanceFields = buildEventBlock('shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah) +
+                          buildEventBlock('walima', 'Walima / Reception', maxGuestsPerEvent.walima);
     } else {
-        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night') +
-                          buildEventBlock('shadi', 'Nikkah / Shadi') +
-                          buildEventBlock('walima', 'Walima / Reception') +
-                          `<p class="guest-limit-info" style="text-align: center;">Maximum guests allowed for your invitation: ${maxGuests} per event</p>`;
+        attendanceFields = buildEventBlock('mehndi', 'Mehndi / Henna Night', maxGuestsPerEvent.mehndi) +
+                          buildEventBlock('shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah) +
+                          buildEventBlock('walima', 'Walima / Reception', maxGuestsPerEvent.walima);
     }
 
     const additionalFields = `
@@ -318,7 +350,7 @@ function generateForm() {
     formContent.innerHTML = commonFields + attendanceFields + additionalFields;
 }
 
-function buildEventBlock(eventKey, eventLabel) {
+function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent) {
     const attendanceName = eventKey === 'shadi' ? 'shadiAttendance' : `${eventKey}Attendance`;
     const guestCountName = eventKey === 'shadi' ? 'shadiGuestCount' : `${eventKey}GuestCount`;
     
@@ -338,8 +370,9 @@ function buildEventBlock(eventKey, eventLabel) {
             <div class="form-group" id="${eventKey}GuestCount" style="display: none;">
                 <label>How many guests for ${eventLabel.split('/')[0].trim()}? (including yourself) *</label>
                 <select name="${guestCountName}" id="${eventKey}GuestCountSelect">
-                    ${generateGuestCountOptions(maxGuests)}
+                    ${generateGuestCountOptions(maxGuestsForEvent)}
                 </select>
+                <p class="guest-limit-info">Maximum: ${maxGuestsForEvent} guests for this event</p>
             </div>
         </div>
     `;
@@ -392,7 +425,7 @@ form.addEventListener('submit', async (e) => {
         const data = {
             inviteId: inviteId,
             inviteType: inviteType,
-            maxGuestsAllowed: maxGuests,
+            maxGuestsPerEvent: JSON.stringify(maxGuestsPerEvent),
             timestamp: new Date().toISOString(),
             name: formData.get('name'),
             email: formData.get('email'),
@@ -437,5 +470,5 @@ form.addEventListener('submit', async (e) => {
 
 console.log('Wedding Site Loaded');
 console.log('Invite Type:', inviteType);
-console.log('Max Guests:', maxGuests);
+console.log('Max Guests Per Event:', maxGuestsPerEvent);
 console.log('Invite ID:', inviteId);
