@@ -7,16 +7,38 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Allura&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400&display=swap" rel="stylesheet">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Brush+Script+MT&family=Pacifico&family=Lobster&family=Permanent+Marker&family=Shadows+Into+Light&family=Amatic+SC:wght@700&family=Satisfy&family=Courgette&family=Bad+Script&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Lateef:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Mr+Dafoe&family=Herr+Von+Muellerhoff&family=Lovers+Quarrel&family=Monsieur+La+Doulaise&family=Mrs+Saint+Delafield&family=Ruthie&family=Rouge+Script&family=Euphoria+Script&family=Niconne&display=swap" rel="stylesheet">
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
+
+
+
+
+
+
+    
     <!-- ==================== LANDING PAGE ==================== -->
     <div class="landing-page" id="landingPage">
         <div class="curtain-container" id="curtainContainer">
-            <!-- Video Background -->
             <video 
                 id="curtainVideo" 
                 class="curtain-video"
@@ -28,19 +50,44 @@
                 x5-video-player-type="h5"
                 x5-video-player-fullscreen="true">
                 <source src="Hakem_Amreen_Loading.mp4" type="video/mp4">
-                <!-- Your browser does not support the video tag. -->
             </video>
             
-            <!-- Overlay Content -->
             <div class="landing-content" id="landingContent">
-                <p class="invitation-text">You have been invited to the wedding of</p>
-                <h1>Hakem</h1>
-                <h1>&</h1>
-                <h1>Amreen</h1>
-                <button class="rsvp-button" onclick="playFullVideo()">RSVP</button>
+
+                 <!-- SVG Overlay -->
+                <div class="bismillah-svg">
+                    <img src="images/Bismillah.svg" alt="Floral Decoration">
+                </div>
+
+                <p class="invitation-text">
+                    THE HABAHBEH AND ALI FAMILY
+                </p>
+                <p class="invitation-text subtle">
+                    INVITE YOU TO CELEBRATE 
+                </p>
+                <p class="invitation-text subtle">
+                    THE UNION OF
+                </p>
+
+
+                <h1 class="couple-names">
+                    <h1>Hakem</h1>
+                    <h1 class="ampersand">&</h1>
+                    <h1>Amreen</h1>
+                </h1>
+
+
+                <button class="rsvp-button" onclick="playFullVideo()">
+                    View Invitation
+                </button>
+
             </div>
+
         </div>
+
+        <div class="white-overlay"></div>
     </div>
+
 
     <!-- ==================== MAIN SITE ==================== -->
     <div class="main-site" id="mainSite">
@@ -57,7 +104,6 @@
                     <li><a href="#home" class="active">Home</a></li>
                     <li><a href="#schedule">Schedule</a></li>
                     <li><a href="#rsvp">RSVP</a></li>
-                    <!-- <li><a href="#registry">Registry</a></li> -->
                     <li><a href="#travel">Travel</a></li>
                 </ul>
             </div>
@@ -73,11 +119,10 @@
                 <div class="slide" style="background-image: url('images/pink.jpg');"></div>
             </div>
 
-            <!-- Names Overlay -->
             <div class="hero-names">
                 <h2>Hakem Habahbeh</h2>
                 <p class="and">&</p>
-                <h3>Amreen Ali</h3>
+                <h2>Amreen Ali</h2>
             </div>
         </section>
 
@@ -86,7 +131,7 @@
             <section id="schedule" class="section schedule-section">
                 <h2 class="section-title">Schedule</h2>
                 <div class="schedule-grid" id="scheduleGrid">
-                    <!-- Dynamic content will be inserted based on invite type -->
+                    <!-- Dynamic content inserted by JS based on invite type -->
                 </div>
             </section>
 
@@ -108,7 +153,6 @@
                     <!-- ===== NEW RSVP TAB ===== -->
                     <div class="rsvp-tab-content active" id="newRsvpTab">
                         <div class="error-message" id="errorMessage"></div>
-
                         <form id="rsvpForm">
                             <div id="dynamicFormContent"></div>
                             <button type="submit" class="submit-btn">SUBMIT RSVP</button>
@@ -135,9 +179,7 @@
                         </div>
 
                         <div class="edit-rsvp-found" id="editRsvpFound">
-                            <div class="previous-rsvp-summary" id="previousRsvpSummary">
-                                <!-- Filled dynamically -->
-                            </div>
+                            <div class="previous-rsvp-summary" id="previousRsvpSummary"></div>
                             <div class="edit-notice">
                                 Update any fields below and submit to save your changes. Fields are pre-filled with your previous responses.
                             </div>
@@ -155,40 +197,17 @@
                 <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
             </div>
 
-            <!-- REGISTRY SECTION -->
-            <!-- <section id="registry" class="section">
-                <h2 class="section-title">Registry</h2>
-                <div class="registry-grid">
-                    <div class="registry-card">
-                        <h3 style="color: #2c2c2c; margin-bottom: 15px;">Target</h3>
-                        <p style="color: #8b7355; font-size: 15px;">Find our registry at Target</p>
-                        <a href="https://www.target.com" target="_blank">View Registry</a>
-                    </div>
-                    <div class="registry-card">
-                        <h3 style="color: #2c2c2c; margin-bottom: 15px;">Bloomingdale's</h3>
-                        <p style="color: #8b7355; font-size: 15px;">Browse our selections at Bloomingdale's</p>
-                        <a href="https://www.bloomingdales.com" target="_blank">View Registry</a>
-                    </div>
-                </div>
-            </section>
-
-            <div class="floral-divider">
-                <img src="/images/divider.svg" alt="decorative divider" class="divider-icon">
-            </div> -->
-
             <!-- TRAVEL SECTION -->
             <section id="travel" class="section">
                 <h2 class="section-title">Travel & Venues</h2>
                 
-                <!-- Mehndi Venue -->
-                <div style="margin-bottom: 60px;">
-                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Mehndi / Henna Night</h3>
-                    
+                <!-- Mehendi Venue -->
+                <div class="venue-block">
+                    <h3 class="venue-heading">Mehendi / Henna Night</h3>
                     <div class="maps-container">
                         <div class="map-item">
-                            <h4>📍 Mehndi/Henna Venue</h4>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.987!3d40.748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzUzLjAiTiA3M8KwNTknMTMuMiJX!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
-                            <p>Replace with Mehndi venue address</p>
+                            <h4>📍 Mehendi/Henna Venue</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.01221449703!2d-87.81286502390809!3d42.02147037122626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fc8fc1836e2c3%3A0x20e3b90a40c54ce8!2sLone%20Tree%20Manor%20Banquet%20Hall%20%26%20Catering!5e0!3m2!1sen!2sus!4v1771135426125!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
@@ -198,12 +217,11 @@
                 </div>
 
                 <!-- Nikkah Venue -->
-                <div style="margin-bottom: 60px;">
-                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Nikkah / Shadi</h3>
-                    
+                <div class="venue-block">
+                    <h3 class="venue-heading">Nikkah / Katb Kitab</h3>
                     <div class="maps-container">
                         <div class="map-item">
-                            <h4>📍 Nikkah Venue</h4>
+                            <h4>📍 Nikkah/Katb Kitab Venue</h4>
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2959.963170852228!2d-87.73636642390363!3d42.10825957121749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fc4f6dda07223%3A0xd4f3e8c2892a134a!2sCommunity%20House%20Winnetka!5e0!3m2!1sen!2sus!4v1770655906639!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
@@ -214,9 +232,8 @@
                 </div>
 
                 <!-- Walima Venue -->
-                <div style="margin-bottom: 60px;">
-                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Walima / Reception</h3>
-                    
+                <div class="venue-block">
+                    <h3 class="venue-heading">Walima / Reception</h3>
                     <div class="maps-container">
                         <div class="map-item">
                             <h4>📍 Walima/Reception Venue</h4>
@@ -230,14 +247,15 @@
                 </div>
 
                 <!-- Hotels Section -->
-                <div style="margin-top: 60px;">
-                    <h3 style="font-size: 36px; color: #d4a574; text-align: center; margin-bottom: 30px; font-weight: 300; letter-spacing: 3px;">Recommended Hotels</h3>
-                    
+                <div class="venue-block">
+                    <h3 class="venue-heading">Recommended Hotels</h3>
                     <div class="maps-container">
                         <div class="map-item">
-                            <h4>🏨 Hotels in the Area</h4>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3022.3!2d-73.987!3d40.748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1shotels!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
-                            <p>Search "hotels near [venue area]" to update this map</p>
+                            <h4>🏨 Hotels in the Skokie Area</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d94655.88212986416!2d-88.13282306811169!3d42.15036563940743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1shotels%20in%20skokie%20illinois!5e0!3m2!1sen!2sus!4v1771136840036!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <h4>🏨 Hotels in the Schaumburg Area</h4>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d94655.88212986416!2d-88.13282306811169!3d42.15036563940743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1shotels%20in%20schaumburg%20illinois!5e0!3m2!1sen!2sus!4v1771136817783!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                        
+                        
                         </div>
                     </div>
                 </div>
@@ -245,7 +263,7 @@
         </div>
     </div>
 
-    <!-- Pop-up Overlay - OUTSIDE main-site div, before closing </body> tag -->
+    <!-- Thank You Pop-up -->
     <div class="popup-overlay" id="thankYouPopup" style="display: none;">
         <div class="popup-container">
             <p class="popup-message">
@@ -255,10 +273,6 @@
         </div>
     </div>
 
-
     <script src="script.js"></script>
-
-
 </body>
-
 </html>
