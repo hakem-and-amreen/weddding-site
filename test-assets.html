@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Diagnostic Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #ccc;
+        }
+        .test-item.success {
+            border-left-color: #4CAF50;
+            background: #f1f8f4;
+        }
+        .test-item.error {
+            border-left-color: #f44336;
+            background: #fef1f0;
+        }
+        .status {
+            display: inline-block;
+            width: 80px;
+            font-weight: bold;
+        }
+        .status.ok { color: #4CAF50; }
+        .status.fail { color: #f44336; }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 30px; }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Website Asset Diagnostic</h1>
+    <p>This page tests all the assets your wedding website needs. Check the results below:</p>
+
+    <div class="test-section">
+        <h2>📹 Video Files</h2>
+        <div id="videoTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🖼️ Image Files</h2>
+        <div id="imageTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📄 Core Files</h2>
+        <div id="coreTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Summary</h2>
+        <div id="summary" style="font-size: 18px; font-weight: bold;"></div>
+    </div>
+
+    <script>
+        const assets = {
+            videos: [
+                'Hakem_Amreen_Loading.mp4'
+            ],
+            images: [
+                'images/Bismillah.svg',
+                'images/divider.svg',
+                'images/hands.jpg',
+                'images/jungle.jpg',
+                'images/flower.jpg',
+                'images/chicago.jpg',
+                'images/pink.jpg'
+            ],
+            core: [
+                'index.html',
+                'script.js',
+                'style.css'
+            ]
+        };
+
+        let totalTests = 0;
+        let passedTests = 0;
+
+        function testAsset(path, container) {
+            totalTests++;
+            
+            fetch(path, { method: 'HEAD' })
+                .then(response => {
+                    const div = document.createElement('div');
+                    div.className = 'test-item';
+                    
+                    if (response.ok) {
+                        div.classList.add('success');
+                        div.innerHTML = `<span class="status ok">✓ FOUND</span> <code>${path}</code>`;
+                        passedTests++;
+                    } else {
+                        div.classList.add('error');
+                        div.innerHTML = `<span class="status fail">✗ MISSING</span> <code>${path}</code> (${response.status})`;
+                    }
+                    
+                    container.appendChild(div);
+                    updateSummary();
+                })
+                .catch(error => {
+                    const div = document.createElement('div');
+                    div.className = 'test-item error';
+                    div.innerHTML = `<span class="status fail">✗ MISSING</span> <code>${path}</code> (Network Error)`;
+                    container.appendChild(div);
+                    updateSummary();
+                });
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            const percentage = Math.round((passedTests / totalTests) * 100);
+            const color = percentage === 100 ? '#4CAF50' : percentage > 50 ? '#FF9800' : '#f44336';
+            
+            summary.innerHTML = `
+                <div style="color: ${color};">
+                    ${passedTests} of ${totalTests} assets found (${percentage}%)
+                </div>
+                ${percentage < 100 ? '<p style="color: #666; font-size: 14px; margin-top: 10px;">Missing assets need to be uploaded to your GitHub repository.</p>' : ''}
+            `;
+        }
+
+        // Run tests
+        const videoContainer = document.getElementById('videoTests');
+        const imageContainer = document.getElementById('imageTests');
+        const coreContainer = document.getElementById('coreTests');
+
+        assets.videos.forEach(path => testAsset(path, videoContainer));
+        assets.images.forEach(path => testAsset(path, imageContainer));
+        assets.core.forEach(path => testAsset(path, coreContainer));
+    </script>
+</body>
+</html>
