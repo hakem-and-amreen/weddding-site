@@ -106,10 +106,14 @@ body {
     color: #ffffff;
     font-family: 'Playfair Display', serif;
     font-style: italic;
-
     font-size: 40px;
-    font-weight: 700;  /* Changed from "BOLD" (invalid) to proper value */
+    font-weight: 300;  /* Changed from 700 to match the clean, elegant weight of the names */
     margin-bottom: 5px;
+    letter-spacing: 2px;  /* Added for cleaner spacing */
+    text-transform: uppercase;
+    line-height: 1.3;
+    
+    /* Clean, sharp text shadow - matching the names style */
     text-shadow: 
         /* Thin dark outline for definition */
         -1px -1px 0 rgba(0,0,0,0.8),
@@ -124,8 +128,12 @@ body {
         0 0 15px rgba(0,0,0,0.6),
         0 0 25px rgba(0,0,0,0.4);
     
-    /* Optional: Very subtle stroke */
+    /* Subtle stroke for crispness */
     -webkit-text-stroke: 0.5px rgba(0,0,0,0.3);
+    
+    /* Anti-aliasing for sharper rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 /* Names */
 .landing-content h1 {
@@ -1185,3 +1193,4 @@ input:focus, select:focus, textarea:focus {
         font-size: 28px;
     }
 }
+
