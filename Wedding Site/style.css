@@ -103,7 +103,7 @@ body {
 
 
 .landing-content .invitation-text {
-    color: #ffffff;
+    color: #c1d6f7;
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: 50px;
@@ -1190,3 +1190,4 @@ input:focus, select:focus, textarea:focus {
         font-size: 28px;
     }
 }
+
