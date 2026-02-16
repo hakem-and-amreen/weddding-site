@@ -134,7 +134,14 @@ body {
     line-height: 1.1;
 }
 
+.landing-content p.couple-names {
+    color: #ffffff;
+    font-size: 30px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
 
+
+}
 .rsvp-button {
     display: inline-block;
     font-family: 'Montserrat', sans-serif;
@@ -1178,5 +1185,3 @@ input:focus, select:focus, textarea:focus {
         font-size: 28px;
     }
 }
-
-
