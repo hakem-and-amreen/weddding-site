@@ -1,6 +1,6 @@
 // Configuration
 const CONFIG = {
-    GOOGLE_SHEETS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzWJkgN3T9gfaf_XzoDkzh-mnKLbQF9HJ-VPMQN349qWFY0xiWdmsJvkfmb8me1b7-pMA/exec',
+    GOOGLE_SHEETS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzuqERmHwsYILDDRNPmIUzZAHV9jygurGMEr9jHeT0YPwKEGT_eVzAuhhADW751FdsZiw/exec',
     DEFAULT_MAX_GUESTS: {
         'mehndi': 2,
         'nikkah': 3,
@@ -676,3 +676,4 @@ console.log('Wedding Site Loaded');
 console.log('Invite Type:', inviteType);
 console.log('Max Guests Per Event:', maxGuestsPerEvent);
 console.log('Invite ID:', inviteId);
+
