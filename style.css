@@ -351,7 +351,7 @@ body {
     position: relative;
     height: 70vh;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     overflow: hidden;
 }
@@ -382,48 +382,64 @@ body {
 }
 
 .hero-names {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 165, 116, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    padding: 60px 40px;
+    padding: 40px 60px;
     text-align: center;
     position: relative;
-    margin-bottom: 80px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 10px;
-    max-width: 600px;
+    margin-bottom: 60px;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
     z-index: 2;
+    align-self: flex-end;
 }
 
+
 .hero-names h2 {
-    font-size: 56px;
-    color: #2c2c2c;
-    font-weight: 300;
-    letter-spacing: 6px;
-    margin-bottom: 15px;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(52px, 9vw, 96px);
+    color: #ffffff;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    line-height: 1.1;
+    text-shadow:
+        2px 2px 8px rgba(0,0,0,0.6),
+        0 0 30px rgba(0,0,0,0.6);
 }
 
 .hero-names .and {
-    font-size: 26px;
-    color: #8b7355;
-    font-style: italic;
-    margin: 10px 0;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(36px, 6vw, 70px);
+    color: rgba(255, 255, 255, 0.85);
+    font-style: normal;
+    margin: 4px 0;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6), 
+                 0 0 20px rgba(0,0,0,0.3);
 }
 
 .hero-names h3 {
-    font-size: 48px;
-    color: #2c2c2c;
-    font-weight: 300;
-    letter-spacing: 6px;
-    margin-bottom: 30px;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(52px, 9vw, 96px);
+    color: #ffffff;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    line-height: 1.1;
+    text-shadow:
+        2px 2px 8px rgba(0,0,0,0.6),
+        0 0 30px rgba(0,0,0,0.4);
 }
 
 .hero-names .location {
-    font-size: 18px;
-    color: #8b7355;
-    letter-spacing: 2px;
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: clamp(13px, 2vw, 18px);
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 1px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }
 
 /* ==================== CONTENT SECTIONS ==================== */
@@ -988,32 +1004,32 @@ input:focus, select:focus, textarea:focus {
     }
 
     .hero-names {
-        padding: 30px 20px;
-        margin-bottom: 40px;
-        margin-left: 20px;
-        margin-right: 20px;
+        padding: 60px 40px;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .hero-names h2 {
-        font-size: 28px;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
+        font-size: clamp(42px, 12vw, 64px);
+        letter-spacing: 1px;
+        margin-bottom: 0;
     }
 
     .hero-names .and {
-        font-size: 26px;
-        margin: 8px 0;
+        font-size: clamp(30px, 9vw, 50px);
+        margin: 2px 0;
     }
 
     .hero-names h3 {
-        font-size: 24px;
-        letter-spacing: 3px;
-        margin-bottom: 15px;
+        font-size: clamp(42px, 12vw, 64px);
+        letter-spacing: 1px;
+        margin-bottom: 0;
     }
 
     .hero-names .location {
-        font-size: 14px;
-        letter-spacing: 1px;
+        font-size: 12px;
+        letter-spacing: 2px;
     }
 
     .content-wrapper {
