@@ -54,8 +54,139 @@ body {
 }
 
 
+
+.sms-optin-wrapper {
+    margin: 16px 0 20px 0;
+}
+
+.sms-optin-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.sms-optin-label input[type="checkbox"] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: #8b6f5e;
+}
+
+.sms-optin-text {
+    font-size: 0.78rem;
+    color: #888;
+    line-height: 1.5;
+}
+
+
+
+
+/* ====== LANDING CONTENT ==================== */
+.landing-content {
+    position: absolute;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 18px;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1),
+        0 0 30px rgba(0,0,0,0.7),
+        0 0 50px rgba(0,0,0,0.7),
+        2px 2px 4px rgba(0,0,0,1);
+    transition: opacity 1s ease-out;
+}
+.bismillah-svg img {
+    width: 500px;
+    max-width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1) drop-shadow(2px 2px 6px rgba(0,0,0,0.9));
+}
+.landing-content .invitation-text {
+    color: #ffffff;
+    font-family: 'Tangerine', cursive;
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    text-shadow:
+        -1px -1px 0 rgba(0,0,0,0.8),
+        1px -1px 0 rgba(0,0,0,0.8),
+        -1px 1px 0 rgba(0,0,0,0.8),
+        1px 1px 0 rgba(0,0,0,0.8);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* Names */
+.landing-content h1 {
+    font-size: clamp(80px, 14vw, 120px);
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Tangerine', cursive;
+    letter-spacing: clamp(3px, 1.5vw, 8px);
+    line-height: 1.1;
+}
+.landing-content p.couple-names {
+    color: #ffffff;
+    font-size: 56px;
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+}
+.rsvp-button {
+    display: inline-block;
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+    padding: clamp(12px, 3vw, 16px) clamp(32px, 8vw, 48px);
+    font-size: clamp(26px, 4vw, 34px);
+    letter-spacing: 2px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(212, 165, 116, 0.6)
+    );
+    color: #2c2c2c;
+    border: 1.5px solid rgba(212, 165, 116, 0.6);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    text-decoration: none;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+    margin-top: 25px;
+    animation: pulse-grow 2.5s ease-in-out infinite;
+}
+.rsvp-button:hover {
+    animation: none;
+    transform: scale(1.05) translateY(-3px);
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.95), rgba(184, 134, 80, 0.95));
+    color: white;
+    box-shadow: 0 6px 20px rgba(212, 165, 116, 0.6);
+}
+@keyframes pulse-grow {
+    0%   { transform: scale(1);   background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(212,165,116,0.6));  color: #2c2c2c; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    50%  { transform: scale(1.1); background: linear-gradient(135deg, rgba(212,165,116,0.85), rgba(184,134,80,0.85));  color: white;   box-shadow: 0 8px 28px rgba(212,165,116,0.55); }
+    100% { transform: scale(1);   background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(212,165,116,0.6));  color: #2c2c2c; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+}
+.bismillah-svg,
+.invitation-text,
+.couple-names,
+.rsvp-button {
+    transition: opacity 0.3s ease-out;
+}
+
+
 /* ==================== LANDING CONTENT ==================== */
 
+
+/* 
 .landing-content {
     position: absolute;
     top: 41%;
@@ -120,6 +251,7 @@ body {
     font-style: italic;
 }
 
+
 .rsvp-button {
     display: inline-block;
     font-family: 'Montserrat', sans-serif;
@@ -151,8 +283,9 @@ body {
 }
 
 @keyframes pulse-grow {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    0%   { transform: scale(1);    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(212,165,116,0.6));  color: #2c2c2c; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    50%  { transform: scale(1.18); background: linear-gradient(135deg, rgba(212,165,116,0.95), rgba(184,134,80,0.95));  color: white;   box-shadow: 0 10px 35px rgba(212,165,116,0.7); }
+    100% { transform: scale(1);    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(212,165,116,0.6));  color: #2c2c2c; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
 }
 
 .bismillah-svg,
@@ -160,7 +293,7 @@ body {
 .couple-names,
 .rsvp-button {
     transition: opacity 0.3s ease-out;
-}
+} */
 
 /* White overlay */
 .white-overlay {
