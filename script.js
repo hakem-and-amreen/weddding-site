@@ -466,22 +466,28 @@ function buildWalimaOnlyBlock(rsvpData) {
     `;
 }
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
     const attendanceName = eventKey === 'shadi' ? 'shadiAttendance' : `${eventKey}Attendance`;
     const guestCountName = eventKey === 'shadi' ? 'shadiGuestCount' : `${eventKey}GuestCount`;
-    
-    const attendanceValue = rsvpData ? (rsvpData[attendanceName] || '') : '';
-    const guestCountValue = rsvpData ? (rsvpData[guestCountName] || 1) : 1;
-    const showGuestCount = attendanceValue === 'Yes';
 
-    let guestCountOptions = rsvpData
-        ? generateGuestCountOptionsWithSelected(maxGuestsForEvent, guestCountValue)
-        : generateGuestCountOptions(maxGuestsForEvent);
+    const attendanceValue = rsvpData ? (rsvpData[attendanceName] || '') : '';
+    const guestCountValue = rsvpData ? parseInt(rsvpData[guestCountName] || 1) : 1;
+    const showGuestCount = attendanceValue === 'Yes';
 
     return `
         <div style="background: #fff5f7; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #d4a574;">
             <h4 style="color: #8b7355; margin-bottom: 15px; font-size: 18px;">${eventLabel}</h4>
-            
+
             <div class="form-group">
                 <label>Will you be attending ${eventLabel.split('/')[0].trim()}? *</label>
                 <select name="${attendanceName}" id="${eventKey}Attendance" required onchange="toggleGuestCount('${eventKey}')">
@@ -492,15 +498,84 @@ function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
             </div>
 
             <div class="form-group" id="${eventKey}GuestCount" style="display: ${showGuestCount ? 'block' : 'none'};">
-                <label>How many guests for ${eventLabel.split('/')[0].trim()}? (including yourself) *</label>
-                <select name="${guestCountName}" id="${eventKey}GuestCountSelect">
-                    ${guestCountOptions}
-                </select>
-                <p class="guest-limit-info">Maximum: ${maxGuestsForEvent} guests for this event</p>
+                <label>Number of guests attending (including yourself)</label>
+                <p class="guest-limit-info" style="margin-bottom: 10px;">Maximum: ${maxGuestsForEvent} guests</p>
+                <div class="stepper-container">
+                    <button type="button" class="stepper-btn" onclick="stepGuests('${eventKey}', -1, ${maxGuestsForEvent})">−</button>
+                    <span class="stepper-value" id="${eventKey}StepperDisplay">${guestCountValue}</span>
+                    <button type="button" class="stepper-btn" onclick="stepGuests('${eventKey}', 1, ${maxGuestsForEvent})">+</button>
+                </div>
+                <!-- Hidden input carries the actual value for form submission -->
+                <input type="hidden" name="${guestCountName}" id="${eventKey}GuestCountSelect" value="${guestCountValue}">
             </div>
         </div>
     `;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
+//     const attendanceName = eventKey === 'shadi' ? 'shadiAttendance' : `${eventKey}Attendance`;
+//     const guestCountName = eventKey === 'shadi' ? 'shadiGuestCount' : `${eventKey}GuestCount`;
+    
+//     const attendanceValue = rsvpData ? (rsvpData[attendanceName] || '') : '';
+//     const guestCountValue = rsvpData ? (rsvpData[guestCountName] || 1) : 1;
+//     const showGuestCount = attendanceValue === 'Yes';
+
+//     let guestCountOptions = rsvpData
+//         ? generateGuestCountOptionsWithSelected(maxGuestsForEvent, guestCountValue)
+//         : generateGuestCountOptions(maxGuestsForEvent);
+
+//     return `
+//         <div style="background: #fff5f7; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #d4a574;">
+//             <h4 style="color: #8b7355; margin-bottom: 15px; font-size: 18px;">${eventLabel}</h4>
+            
+//             <div class="form-group">
+//                 <label>Will you be attending ${eventLabel.split('/')[0].trim()}? *</label>
+//                 <select name="${attendanceName}" id="${eventKey}Attendance" required onchange="toggleGuestCount('${eventKey}')">
+//                     <option value="">Please select</option>
+//                     <option value="Yes" ${attendanceValue === 'Yes' ? 'selected' : ''}>Accept</option>
+//                     <option value="No" ${attendanceValue === 'No' ? 'selected' : ''}>Decline</option>
+//                 </select>
+//             </div>
+
+//             <div class="form-group" id="${eventKey}GuestCount" style="display: ${showGuestCount ? 'block' : 'none'};">
+//                 <label>How many guests for ${eventLabel.split('/')[0].trim()}? (including yourself) *</label>
+//                 <select name="${guestCountName}" id="${eventKey}GuestCountSelect">
+//                     ${guestCountOptions}
+//                 </select>
+//                 <p class="guest-limit-info">Maximum: ${maxGuestsForEvent} guests for this event</p>
+//             </div>
+//         </div>
+//     `;
+// }
 
 function buildAdditionalFields(rsvpData) {
     const message = rsvpData ? escapeHtml(rsvpData.message || '') : '';
