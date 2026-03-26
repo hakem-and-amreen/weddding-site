@@ -17,7 +17,58 @@ function closePopup() {
     document.getElementById('thankYouPopup').style.display = 'none';
 }
 
-// ==================== VIDEO LANDING PAGE ====================
+// ==================== TRAVEL SECTION EVENT VISIBILITY ====================
+
+
+// Run after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    video.load();
+    
+    // ... your existing code ...
+    
+    generateSchedule();
+    generateForm();
+
+    // ==================== TRAVEL SECTION EVENT VISIBILITY ====================
+    const travelSection = document.getElementById('travel');
+    if (travelSection) {
+        const invited = {
+            mehndi: inviteType === 'all' || inviteType.includes('mehndi'),
+            nikkah: inviteType === 'all' || inviteType.includes('nikkah'),
+            walima: inviteType === 'all' || inviteType.includes('walima'),
+        };
+
+        // Each event section's h3 contains one of these keywords
+        const keywordMap = {
+            'mehendi': 'mehndi',   // handles the extra 'e' spelling
+            'mehndi':  'mehndi',
+            'nikkah':  'nikkah',
+            'walima':  'walima',
+        };
+
+        travelSection.querySelectorAll('h3.section-title').forEach(h3 => {
+            const text = h3.textContent.trim().toLowerCase();
+            const matchedKey = Object.keys(keywordMap).find(k => text.includes(k));
+            if (!matchedKey) return;
+
+            const eventKey = keywordMap[matchedKey];
+            if (!invited[eventKey]) {
+                const sectionDiv = h3.closest('.section');
+                if (!sectionDiv) return;
+                sectionDiv.style.display = 'none';
+
+                // Hide the floral divider after it too
+                const next = sectionDiv.nextElementSibling;
+                if (next && next.classList.contains('floral-divider')) {
+                    next.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // ... rest of your DOMContentLoaded code ...
+});
+
 
 // ==================== VIDEO LANDING PAGE ====================
 const video = document.getElementById('curtainVideo');
@@ -676,4 +727,3 @@ console.log('Wedding Site Loaded');
 console.log('Invite Type:', inviteType);
 console.log('Max Guests Per Event:', maxGuestsPerEvent);
 console.log('Invite ID:', inviteId);
-
