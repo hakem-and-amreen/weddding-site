@@ -1,3 +1,4 @@
+
 // // Configuration
 // const CONFIG = {
 //     GOOGLE_SHEETS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzuqERmHwsYILDDRNPmIUzZAHV9jygurGMEr9jHeT0YPwKEGT_eVzAuhhADW751FdsZiw/exec',
@@ -418,9 +419,9 @@
 //                 <label>Number of guests attending (including yourself)</label>
 //                 <p class="guest-limit-info" style="margin-bottom: 10px;">Maximum: ${maxGuestsForEvent} guests</p>
 //                 <div class="stepper-container">
-//                     <button type="button" class="stepper-btn" onclick="stepGuests('${eventKey}', -1, ${maxGuestsForEvent})">−</button>
-//                     <span class="stepper-value" id="${eventKey}StepperDisplay">${guestCountValue}</span>
-//                     <button type="button" class="stepper-btn" onclick="stepGuests('${eventKey}', 1, ${maxGuestsForEvent})">+</button>
+//                     <button type="button" class="stepper-btn" onclick="stepGuests(this, -1, ${maxGuestsForEvent})">−</button>
+//                     <span class="stepper-value">${guestCountValue}</span>
+//                     <button type="button" class="stepper-btn" onclick="stepGuests(this, 1, ${maxGuestsForEvent})">+</button>
 //                 </div>
 //                 <input type="hidden" name="${guestCountName}" id="${eventKey}GuestCountSelect" value="${guestCountValue}">
 //             </div>
@@ -428,21 +429,23 @@
 //     `;
 // }
 
-// // ==================== STEPPER FUNCTION (was missing!) ====================
-// function stepGuests(eventKey, delta, max) {
-//     const display = document.getElementById(`${eventKey}StepperDisplay`);
-//     const hiddenInput = document.getElementById(`${eventKey}GuestCountSelect`);
-    
+// // ==================== STEPPER FUNCTION ====================
+// // Uses the button element itself to scope the search — fixes duplicate ID
+// // issue when both New RSVP and Edit RSVP forms are in the DOM simultaneously
+// function stepGuests(btn, delta, max) {
+//     const container = btn.closest('.stepper-container');
+//     if (!container) return;
+
+//     const display   = container.querySelector('.stepper-value');
+//     const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
+
 //     if (!display || !hiddenInput) return;
-    
+
 //     let current = parseInt(display.textContent) || 1;
-//     let next = current + delta;
-    
-//     // Clamp between 1 and max
-//     next = Math.max(1, Math.min(max, next));
-    
+//     let next = Math.max(1, Math.min(max, current + delta));
+
 //     display.textContent = next;
-//     hiddenInput.value = next;
+//     hiddenInput.value   = next;
 // }
 
 // function buildAdditionalFields(rsvpData) {
@@ -654,6 +657,10 @@
 // console.log('Invite Type:', inviteType);
 // console.log('Max Guests Per Event:', maxGuestsPerEvent);
 // console.log('Invite ID:', inviteId);
+
+
+
+
 
 
 // Configuration
@@ -1056,7 +1063,10 @@ function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
     const guestCountName = eventKey === 'shadi' ? 'shadiGuestCount' : `${eventKey}GuestCount`;
 
     const attendanceValue = rsvpData ? (rsvpData[attendanceName] || '') : '';
-    const guestCountValue = rsvpData ? parseInt(rsvpData[guestCountName] || 1) : 1;
+    // If previously declined store 0; if accepted use saved count; if new form default to 1
+    const guestCountValue = rsvpData
+        ? (attendanceValue === 'No' ? 0 : Math.max(1, parseInt(rsvpData[guestCountName] || 1)))
+        : 1;
     const showGuestCount = attendanceValue === 'Yes';
 
     return `
@@ -1065,45 +1075,64 @@ function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
 
             <div class="form-group">
                 <label>Will you be attending ${eventLabel.split('/')[0].trim()}? *</label>
-                <select name="${attendanceName}" id="${eventKey}Attendance" required onchange="toggleGuestCount('${eventKey}')">
+                <select name="${attendanceName}" required onchange="toggleGuestCount(this)" onclick="toggleGuestCount(this)">
                     <option value="">Please select</option>
                     <option value="Yes" ${attendanceValue === 'Yes' ? 'selected' : ''}>Accept</option>
                     <option value="No" ${attendanceValue === 'No' ? 'selected' : ''}>Decline</option>
                 </select>
             </div>
 
-            <div class="form-group" id="${eventKey}GuestCount" style="display: ${showGuestCount ? 'block' : 'none'};">
+            <div class="form-group event-guest-block" style="display: ${showGuestCount ? 'block' : 'none'};">
                 <label>Number of guests attending (including yourself)</label>
                 <p class="guest-limit-info" style="margin-bottom: 10px;">Maximum: ${maxGuestsForEvent} guests</p>
                 <div class="stepper-container">
-                    <button type="button" class="stepper-btn" onclick="stepGuests(this, -1, ${maxGuestsForEvent})">−</button>
-                    <span class="stepper-value">${guestCountValue}</span>
-                    <button type="button" class="stepper-btn" onclick="stepGuests(this, 1, ${maxGuestsForEvent})">+</button>
+                    <button type="button" class="stepper-btn stepper-minus" data-max="${maxGuestsForEvent}">&#8722;</button>
+                    <span class="stepper-value">${showGuestCount ? guestCountValue : 1}</span>
+                    <button type="button" class="stepper-btn stepper-plus" data-max="${maxGuestsForEvent}">+</button>
                 </div>
-                <input type="hidden" name="${guestCountName}" id="${eventKey}GuestCountSelect" value="${guestCountValue}">
+                <input type="hidden" name="${guestCountName}" value="${showGuestCount ? guestCountValue : 1}">
             </div>
         </div>
     `;
 }
 
-// ==================== STEPPER FUNCTION ====================
-// Uses the button element itself to scope the search — fixes duplicate ID
-// issue when both New RSVP and Edit RSVP forms are in the DOM simultaneously
-function stepGuests(btn, delta, max) {
-    const container = btn.closest('.stepper-container');
+// ==================== STEPPER — iOS Safari safe event delegation ====================
+// Uses touchstart + mousedown on document to catch taps on dynamically built buttons.
+// onclick attributes are unreliable in iOS Safari inside forms.
+function handleStepperTap(e) {
+    // Accept both touch and mouse events
+    const btn = e.target.closest('.stepper-btn');
+    if (!btn) return;
+
+    // Prevent mousedown firing after touchstart on iOS (double-fire)
+    if (e.type === 'touchstart') {
+        btn._touchFired = true;
+    } else if (e.type === 'mousedown') {
+        if (btn._touchFired) { btn._touchFired = false; return; }
+    }
+
+    e.preventDefault();
+
+    const container  = btn.closest('.stepper-container');
     if (!container) return;
 
-    const display   = container.querySelector('.stepper-value');
-    const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
+    const display    = container.querySelector('.stepper-value');
+    const guestBlock = container.closest('.event-guest-block');
+    const hiddenInput = guestBlock ? guestBlock.querySelector('input[type="hidden"]') : null;
 
     if (!display || !hiddenInput) return;
 
-    let current = parseInt(display.textContent) || 1;
-    let next = Math.max(1, Math.min(max, current + delta));
+    const max     = parseInt(btn.dataset.max) || 10;
+    const delta   = btn.classList.contains('stepper-plus') ? 1 : -1;
+    const current = parseInt(display.textContent) || 1;
+    const next    = Math.max(1, Math.min(max, current + delta));
 
     display.textContent = next;
     hiddenInput.value   = next;
 }
+
+document.addEventListener('touchstart', handleStepperTap, { passive: false });
+document.addEventListener('mousedown',  handleStepperTap);
 
 function buildAdditionalFields(rsvpData) {
     const message = rsvpData ? escapeHtml(rsvpData.message || '') : '';
@@ -1147,21 +1176,30 @@ function generateGuestCountOptionsWithSelected(max, selectedValue) {
     return options;
 }
 
-function toggleGuestCount(event) {
-    const attendance = document.getElementById(`${event}Attendance`).value;
-    const guestCountDiv = document.getElementById(`${event}GuestCount`);
-    const guestCountSelect = document.getElementById(`${event}GuestCountSelect`);
-    
-    if (attendance === 'Yes') {
-        guestCountDiv.style.display = 'block';
-        if (guestCountSelect) guestCountSelect.required = true;
-    } else {
-        guestCountDiv.style.display = 'none';
-        if (guestCountSelect) {
-            guestCountSelect.required = false;
-            guestCountSelect.value = '';
+// toggleGuestCount — called with the <select> element directly (no ID lookup)
+// Uses both onchange and onclick to handle iOS Safari's delayed onchange firing
+function toggleGuestCount(selectEl) {
+    // Small delay ensures iOS has committed the new value before we read it
+    setTimeout(() => {
+        const eventBlock  = selectEl.closest('div[style*="background: #fff5f7"]');
+        if (!eventBlock) return;
+
+        const guestBlock  = eventBlock.querySelector('.event-guest-block');
+        const hiddenInput = eventBlock.querySelector('input[type="hidden"]');
+        const display     = eventBlock.querySelector('.stepper-value');
+
+        if (selectEl.value === 'Yes') {
+            const currentVal = parseInt(hiddenInput ? hiddenInput.value : 0) || 1;
+            const restored   = Math.max(1, currentVal);
+            if (display)     display.textContent = restored;
+            if (hiddenInput) hiddenInput.value   = restored;
+            if (guestBlock)  guestBlock.style.display = 'block';
+        } else if (selectEl.value === 'No') {
+            if (display)     display.textContent = 0;
+            if (hiddenInput) hiddenInput.value   = 0;
+            if (guestBlock)  guestBlock.style.display = 'none';
         }
-    }
+    }, 0);
 }
 
 // ==================== FORM SUBMISSION ====================
@@ -1296,12 +1334,13 @@ function populateEditForm(rsvpData) {
     const formContent = document.getElementById('editDynamicFormContent');
     formContent.innerHTML = buildCommonFields(rsvpData) + buildAttendanceFields(rsvpData) + buildAdditionalFields(rsvpData);
     
+    // After DOM is built, trigger toggleGuestCount on each select so stepper
+    // visibility matches the pre-filled acceptance values
     setTimeout(() => {
-        ['mehndi', 'shadi', 'walima'].forEach(event => {
-            const attendanceSelect = document.getElementById(`${event}Attendance`);
-            if (attendanceSelect) toggleGuestCount(event);
+        formContent.querySelectorAll('select[name$="Attendance"]').forEach(sel => {
+            toggleGuestCount(sel);
         });
-    }, 100);
+    }, 50);
 }
 
 function escapeHtml(text) {
