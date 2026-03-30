@@ -1,7 +1,3 @@
-
-
-
-
 // Configuration
 const CONFIG = {
     GOOGLE_SHEETS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzuqERmHwsYILDDRNPmIUzZAHV9jygurGMEr9jHeT0YPwKEGT_eVzAuhhADW751FdsZiw/exec',
