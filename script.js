@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const travelSection = document.getElementById('travel');
     if (travelSection) {
         const invited = {
-            mehndi: inviteType === 'all' || inviteType.includes('mehndi'),
+            mehndi: inviteType === 'all' || inviteType.includes('mehendi'),
             nikkah: inviteType === 'all' || inviteType.includes('nikkah'),
             walima: inviteType === 'all' || inviteType.includes('walima'),
         };
@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     message: formData.get('message'),
                     mehndiAttendance: formData.get('mehndiAttendance') || 'N/A',
                     mehndiGuestCount: formData.get('mehndiGuestCount') || 0,
-                    shadiAttendance: formData.get('shadiAttendance') || 'N/A',
-                    shadiGuestCount: formData.get('shadiGuestCount') || 0,
+                    shaadiAttendance: formData.get('shaadiAttendance') || 'N/A',
+                    shaadiGuestCount: formData.get('shaadiGuestCount') || 0,
                     walimaAttendance: formData.get('walimaAttendance') || 'N/A',
                     walimaGuestCount: formData.get('walimaGuestCount') || 0
                 };
@@ -299,7 +299,7 @@ const EVENT_TEMPLATES = {
         </div>`,
     nikkah: `
         <div class="event-card">
-            <h3>Nikkah / Shadi</h3>
+            <h3>Nikkah / shaadi</h3>
             <p class="event-date">Friday, July 24, 2026</p>
             <p class="event-time">6:00 PM - 11:00 PM</p>
             <p class="event-description">The wedding ceremony where two families become one. Traditional attire encouraged.</p>
@@ -364,7 +364,7 @@ function buildAttendanceFields(rsvpData) {
     // Single-event invite types all use the unified stepper block
     const singleEventMap = {
         'mehndi': ['mehndi', 'Mehendi / Henna Night', 'mehndi'],
-        'nikkah': ['shadi', 'Nikkah / Shadi', 'nikkah'],
+        'nikkah': ['shaadi', 'Nikkah / shaadi', 'nikkah'],
         'walima': ['walima', 'Walima / Reception', 'walima'],
     };
 
@@ -376,19 +376,19 @@ function buildAttendanceFields(rsvpData) {
     const eventConfig = {
         'mehndi-nikkah': [
             ['mehndi', 'Mehendi / Henna Night', maxGuestsPerEvent.mehndi],
-            ['shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah]
+            ['shaadi', 'Nikkah / shaadi', maxGuestsPerEvent.nikkah]
         ],
         'mehndi-walima': [
             ['mehndi', 'Mehendi / Henna Night', maxGuestsPerEvent.mehndi],
             ['walima', 'Walima / Reception', maxGuestsPerEvent.walima]
         ],
         'nikkah-walima': [
-            ['shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah],
+            ['shaadi', 'Nikkah / shaadi', maxGuestsPerEvent.nikkah],
             ['walima', 'Walima / Reception', maxGuestsPerEvent.walima]
         ],
         'all': [
             ['mehndi', 'Mehendi / Henna Night', maxGuestsPerEvent.mehndi],
-            ['shadi', 'Nikkah / Shadi', maxGuestsPerEvent.nikkah],
+            ['shaadi', 'Nikkah / shaadi', maxGuestsPerEvent.nikkah],
             ['walima', 'Walima / Reception', maxGuestsPerEvent.walima]
         ]
     };
@@ -398,8 +398,8 @@ function buildAttendanceFields(rsvpData) {
 }
 
 function buildEventBlock(eventKey, eventLabel, maxGuestsForEvent, rsvpData) {
-    const attendanceName = eventKey === 'shadi' ? 'shadiAttendance' : `${eventKey}Attendance`;
-    const guestCountName = eventKey === 'shadi' ? 'shadiGuestCount' : `${eventKey}GuestCount`;
+    const attendanceName = eventKey === 'shaadi' ? 'shaadiAttendance' : `${eventKey}Attendance`;
+    const guestCountName = eventKey === 'shaadi' ? 'shaadiGuestCount' : `${eventKey}GuestCount`;
 
     const attendanceValue = rsvpData ? (rsvpData[attendanceName] || '') : '';
     // If previously declined store 0; if accepted use saved count; if new form default to 1
@@ -555,8 +555,8 @@ function collectFormData(formElement) {
         message: formData.get('message'),
         mehndiAttendance: formData.get('mehndiAttendance') || 'N/A',
         mehndiGuestCount: formData.get('mehndiGuestCount') || 0,
-        shadiAttendance: formData.get('shadiAttendance') || 'N/A',
-        shadiGuestCount: formData.get('shadiGuestCount') || 0,
+        shaadiAttendance: formData.get('shaadiAttendance') || 'N/A',
+        shaadiGuestCount: formData.get('shaadiGuestCount') || 0,
         walimaAttendance: formData.get('walimaAttendance') || 'N/A',
         walimaGuestCount: formData.get('walimaGuestCount') || 0
     };
@@ -650,7 +650,7 @@ function displayPreviousRsvpSummary(rsvpData) {
 
     const eventSummaries = [
         { key: 'mehndiAttendance', guestKey: 'mehndiGuestCount', label: 'Mehndi' },
-        { key: 'shadiAttendance', guestKey: 'shadiGuestCount', label: 'Nikkah/Shadi' },
+        { key: 'shaadiAttendance', guestKey: 'shaadiGuestCount', label: 'Nikkah/shaadi' },
         { key: 'walimaAttendance', guestKey: 'walimaGuestCount', label: 'Walima' }
     ];
     
