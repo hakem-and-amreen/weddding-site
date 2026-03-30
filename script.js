@@ -176,8 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     message: formData.get('message'),
                     mehndiAttendance: formData.get('mehndiAttendance') || 'N/A',
                     mehndiGuestCount: formData.get('mehndiGuestCount') || 0,
-                    ShaadiAttendance: formData.get('ShaadiAttendance') || 'N/A',
-                    ShaadiGuestCount: formData.get('ShaadiGuestCount') || 0,
+                    shaadiAttendance: formData.get('shaadiAttendance') || 'N/A',
+                    shaadiGuestCount: formData.get('shaadiGuestCount') || 0,
                     walimaAttendance: formData.get('walimaAttendance') || 'N/A',
                     walimaGuestCount: formData.get('walimaGuestCount') || 0
                 };
