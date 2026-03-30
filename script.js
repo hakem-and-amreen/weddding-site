@@ -551,8 +551,8 @@ function collectFormData(formElement) {
         message: formData.get('message'),
         mehndiAttendance: formData.get('mehndiAttendance') || 'N/A',
         mehndiGuestCount: formData.get('mehndiGuestCount') || 0,
-        ShaadiAttendance: formData.get('ShaadiAttendance') || 'N/A',
-        ShaadiGuestCount: formData.get('ShaadiGuestCount') || 0,
+        shaadiAttendance: formData.get('shaadiAttendance') || 'N/A',  // lowercase
+        shaadiGuestCount: formData.get('shaadiGuestCount') || 0,       // lowercase
         walimaAttendance: formData.get('walimaAttendance') || 'N/A',
         walimaGuestCount: formData.get('walimaGuestCount') || 0
     };
@@ -645,8 +645,8 @@ function displayPreviousRsvpSummary(rsvpData) {
     if (rsvpData.phone) summaryHTML += `<p><strong>Phone:</strong> ${rsvpData.phone}</p>`;
 
     const eventSummaries = [
-        { key: 'mehndiAttendance', guestKey: 'mehndiGuestCount', label: 'Mehndi' },
-        { key: 'ShaadiAttendance', guestKey: 'ShaadiGuestCount', label: 'Nikkah/Shaadi' },
+        { key: 'mehndiAttendance', guestKey: 'mehndiGuestCount', label: 'Mehendi' },
+        { key: 'shaadiAttendance', guestKey: 'shaadiGuestCount', label: 'Nikkah / Shaadi' },  // lowercase
         { key: 'walimaAttendance', guestKey: 'walimaGuestCount', label: 'Walima' }
     ];
     
